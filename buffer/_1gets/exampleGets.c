@@ -14,10 +14,18 @@
 
 int main() {
 	char username[8];
-	int allow = 0;
+	char allow = 0;
+
+	int diff = username - &allow;
+
+	char *p_username = username;
+	char *p_allow = &allow;
+
+	int difference = p_username - p_allow;	
 
 	printf("Address Username %p\n", &username);
-	printf("Address Allow %p\n\n", &allow);
+	printf("Address Allow %p\n", &allow);
+	printf("Difference.... %i\n\n", difference);
 
 	printf("Enter your username, please: ");
 	gets(username);
