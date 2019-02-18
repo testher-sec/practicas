@@ -1,0 +1,120 @@
+esther@esther-VirtualBox:/media/sf_sharedFolderVMs/buffer/_1gets$ gdb ./examplegdb 
+GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./examplegdb...(no debugging symbols found)...done.
+(gdb) disas main
+Dump of assembler code for function main:
+   0x00000000004005f6 <+0>:	push   %rbp
+   0x00000000004005f7 <+1>:	mov    %rsp,%rbp
+   0x00000000004005fa <+4>:	sub    $0x30,%rsp
+   0x00000000004005fe <+8>:	movb   $0x0,-0x1d(%rbp)
+   0x0000000000400602 <+12>:	lea    -0x30(%rbp),%rdx
+   0x0000000000400606 <+16>:	lea    -0x1d(%rbp),%rax
+   0x000000000040060a <+20>:	sub    %rax,%rdx
+   0x000000000040060d <+23>:	mov    %rdx,%rax
+   0x0000000000400610 <+26>:	mov    %eax,-0x4(%rbp)
+   0x0000000000400613 <+29>:	lea    -0x30(%rbp),%rax
+   0x0000000000400617 <+33>:	mov    %rax,-0x10(%rbp)
+   0x000000000040061b <+37>:	lea    -0x1d(%rbp),%rax
+   0x000000000040061f <+41>:	mov    %rax,-0x18(%rbp)
+   0x0000000000400623 <+45>:	mov    -0x10(%rbp),%rdx
+   0x0000000000400627 <+49>:	mov    -0x18(%rbp),%rax
+   0x000000000040062b <+53>:	sub    %rax,%rdx
+   0x000000000040062e <+56>:	mov    %rdx,%rax
+   0x0000000000400631 <+59>:	mov    %eax,-0x1c(%rbp)
+   0x0000000000400634 <+62>:	lea    -0x30(%rbp),%rax
+   0x0000000000400638 <+66>:	mov    %rax,%rsi
+   0x000000000040063b <+69>:	mov    $0x4007d8,%edi
+   0x0000000000400640 <+74>:	mov    $0x0,%eax
+   0x0000000000400645 <+79>:	callq  0x4004b0 <printf@plt>
+   0x000000000040064a <+84>:	lea    -0x1d(%rbp),%rax
+   0x000000000040064e <+88>:	mov    %rax,%rsi
+   0x0000000000400651 <+91>:	mov    $0x4007ed,%edi
+   0x0000000000400656 <+96>:	mov    $0x0,%eax
+   0x000000000040065b <+101>:	callq  0x4004b0 <printf@plt>
+   0x0000000000400660 <+106>:	mov    -0x1c(%rbp),%eax
+   0x0000000000400663 <+109>:	mov    %eax,%esi
+   0x0000000000400665 <+111>:	mov    $0x4007ff,%edi
+   0x000000000040066a <+116>:	mov    $0x0,%eax
+   0x000000000040066f <+121>:	callq  0x4004b0 <printf@plt>
+   0x0000000000400674 <+126>:	mov    $0x400813,%edi
+   0x0000000000400679 <+131>:	mov    $0x0,%eax
+   0x000000000040067e <+136>:	callq  0x4004b0 <printf@plt>
+   0x0000000000400683 <+141>:	lea    -0x30(%rbp),%rax
+   0x0000000000400687 <+145>:	mov    %rax,%rdi
+   0x000000000040068a <+148>:	mov    $0x0,%eax
+   0x000000000040068f <+153>:	callq  0x4004e0 <gets@plt>
+   0x0000000000400694 <+158>:	lea    -0x30(%rbp),%rax
+   0x0000000000400698 <+162>:	mov    %rax,%rdi
+   0x000000000040069b <+165>:	callq  0x400725 <grantAccess>
+   0x00000000004006a0 <+170>:	test   %eax,%eax
+   0x00000000004006a2 <+172>:	je     0x4006a8 <main+178>
+   0x00000000004006a4 <+174>:	movb   $0x1,-0x1d(%rbp)
+   0x00000000004006a8 <+178>:	lea    -0x30(%rbp),%rax
+   0x00000000004006ac <+182>:	mov    %rax,%rsi
+   0x00000000004006af <+185>:	mov    $0x400838,%edi
+   0x00000000004006b4 <+190>:	mov    $0x0,%eax
+   0x00000000004006b9 <+195>:	callq  0x4004b0 <printf@plt>
+   0x00000000004006be <+200>:	movzbl -0x1d(%rbp),%eax
+   0x00000000004006c2 <+204>:	test   %al,%al
+   0x00000000004006c4 <+206>:	je     0x4006d0 <main+218>
+---Type <return> to continue, or q <return> to quit---
+   0x00000000004006c6 <+208>:	mov    $0x0,%eax
+   0x00000000004006cb <+213>:	callq  0x400714 <privilegedAction>
+   0x00000000004006d0 <+218>:	lea    -0x30(%rbp),%rax
+   0x00000000004006d4 <+222>:	mov    %rax,%rsi
+   0x00000000004006d7 <+225>:	mov    $0x40085f,%edi
+   0x00000000004006dc <+230>:	mov    $0x0,%eax
+   0x00000000004006e1 <+235>:	callq  0x4004b0 <printf@plt>
+   0x00000000004006e6 <+240>:	movzbl -0x1d(%rbp),%eax
+   0x00000000004006ea <+244>:	movsbl %al,%eax
+   0x00000000004006ed <+247>:	mov    %eax,%esi
+   0x00000000004006ef <+249>:	mov    $0x40086c,%edi
+   0x00000000004006f4 <+254>:	mov    $0x0,%eax
+   0x00000000004006f9 <+259>:	callq  0x4004b0 <printf@plt>
+   0x00000000004006fe <+264>:	mov    $0x400876,%edi
+   0x0000000000400703 <+269>:	mov    $0x0,%eax
+   0x0000000000400708 <+274>:	callq  0x4004b0 <printf@plt>
+   0x000000000040070d <+279>:	mov    $0x0,%eax
+   0x0000000000400712 <+284>:	leaveq 
+   0x0000000000400713 <+285>:	retq   
+End of assembler dump.
+(gdb) 
+(gdb) breaks *0x000000000040069b
+Undefined command: "breaks".  Try "help".
+(gdb) run
+Starting program: /media/sf_sharedFolderVMs/buffer/_1gets/examplegdb 
+Address Username 0x7fffffffdd10
+Address Allow 0x7fffffffdd23
+Difference.... -19
+
+Enter your username, please: aaaaaaaaaabbbbbbbbbb
+Address after Username assigned... 0x7fffffffdd10
+If you got here you are a VIP
+Username aaaaaaaaaabbbbbbbbbb
+Allow 98
+That's it, game over....[Inferior 1 (process 5175) exited normally]
+(gdb) run
+Starting program: /media/sf_sharedFolderVMs/buffer/_1gets/examplegdb 
+Address Username 0x7fffffffdd10
+Address Allow 0x7fffffffdd23
+Difference.... -19
+
+Enter your username, please: aaaaaaaaaabbbbbbbbb
+Address after Username assigned... 0x7fffffffdd10
+Username aaaaaaaaaabbbbbbbbb
+Allow 0
+That's it, game over....[Inferior 1 (process 5181) exited normally]
+(gdb) 
