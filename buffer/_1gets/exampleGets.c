@@ -13,8 +13,9 @@
 #include "helper.h"
 
 int main() {
-	char username[8];
+
 	char allow = 0;
+	char username[8];
 
 	int diff = username - &allow;
 

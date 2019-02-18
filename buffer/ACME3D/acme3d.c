@@ -20,7 +20,7 @@
 #define MAX_CANVAS_HEIGHT 1024
 
 struct settings {
-	unsigned char * bitmap;
+	unsigned char * bitmap; //===================> TODO : keep an eye on this
 	int width;
 	int height;
 	int color;
@@ -29,17 +29,17 @@ struct settings {
 
 void DrawPixel(int x, int y, struct settings * canvas) {
 
-	if ((x < 0 || x >= canvas->height)
-		&& (y < 0 || y >= canvas->width)) {
+	if (y < 0 || y >= canvas->height)
+		if (x < 0 || x >= canvas->width) {
 		// prevent off-screen drawing
 		return;
 	}
 
-	canvas->bitmap[y * canvas->width + x] = canvas->color;
+	canvas->bitmap[x * canvas->width + y] = canvas->color;
 }
 
 /* Bresenham's line algorithm */
-void DrawLine(int x0, int y0, int x1, int y1, struct settings * canvas) {
+void DrawLine(int x0, int y0, int x1, int y1, struct settings *canvas) {
 	int dx = abs(x1 - x0);
 	int dy = abs(y1 - y0);
 	int sx = x0 < x1 ? 1 : -1;
@@ -191,7 +191,7 @@ int main(int argc, char **argv, char * envp[]) {
 
 	// -------------------------------------------------------------
 
-	outputFileName[value] = '\0';
+	outputFileName[value] = '\0'; //===================> TODO : keep an eye on this
 
 	strcat(outputFileName, ".pgm");
 	printf("Created file tras strcat %s\n", outputFileName);

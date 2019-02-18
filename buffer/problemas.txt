@@ -1,0 +1,144 @@
+esther@esther-VirtualBox:/media/sf_sharedFolderVMs/buffer/_1gets$ ./example
+Address Username 0x7ffce3b22f40
+Address Allow 0x7ffce3b22f27
+Difference.... 25
+
+Enter your username, please: 123456789012345678901234
+Username 123456789012345678901234
+Allow 0
+*** stack smashing detected ***: ./example terminated
+That's it, game over....Aborted (core dumped)
+
+
+https://stackoverflow.com/questions/1345670/stack-smashing-detected
+
+Stack Smashing here is actually caused due to a protection mechanism used by gcc to detect buffer overflow errors.
+
+disabled the stack smashing protector
+
+
+       -fstack-protector
+           Emit extra code to check for buffer overflows, such as stack
+           smashing attacks.  This is done by adding a guard variable to
+           functions with vulnerable objects.  This includes functions that
+           call "alloca", and functions with buffers larger than 8 bytes.  The
+           guards are initialized when a function is entered and then checked
+           when the function exits.  If a guard check fails, an error message
+           is printed and the program exits.
+
+       -fstack-protector-all
+           Like -fstack-protector except that all functions are protected.
+
+
+esther@esther-VirtualBox:/media/sf_sharedFolderVMs/buffer/_1gets$ gcc -fno-stack-protector exampleGets.c helper.c -o exampleBug
+exampleGets.c: In function ‘main’:
+exampleGets.c:31:2: warning: implicit declaration of function ‘gets’ [-Wimplicit-function-declaration]
+  gets(username);
+  ^
+/tmp/ccQ34vVJ.o: In function `main':
+exampleGets.c:(.text+0x9a): warning: the `gets' function is dangerous and should not be used.
+
+http://blog.sevagas.com/?Setup-a-buffer-overflow-testing
+
+sudo apt-get install gdb 
+
+apt-get install paxtest
+
+esther@esther-VirtualBox:/media/sf_sharedFolderVMs/buffer/_1gets$ sysctl kernel.randomize_va_space
+kernel.randomize_va_space = 2
+
+if > 0 then the stack randomization is on
+
+./victim $( printf "%0258x" 0 ) 
+
+https://www.cprogramming.com/debugging/segfaults.html
+
+
+gdb =========================> GNU Debugger
+===========================================
+file victim
+disas main
+break *0x000000000040055f
+(gdb) run $(python -c "print('A'*256)")
+
+(gdb) x/200xb $rsp
+
+It is similar for stack pointer too. sp->16-bit, esp->32-bits and rsp->64-bit. When you are examining the esp, the address is actually 64 bits but you are trying examine and forcing it to split to 32 bits addresses.
+
+
+ ax->16-bit
+eax->32-bit
+rax->64-bit
+
+sp->16-bit, 
+esp->32-bits 
+rsp->64-bit
+
+0x7fffffffdb20
+
+ run $(python -c "print('A'*250)")
+
+
+
+ Starting program: /media/sf_sharedFolderVMs/buffer/tutorial/tutorial $(python -c "print('A'*268)")
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007f0041414141 in ?? ()
+
+
+
+after I remove the 
+-fno-stack-protector
+
+Starting program: /media/sf_sharedFolderVMs/buffer/tutorial/tutorial $(python -c "print('A'*265+'BBBB')")
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000004242424241 in ?? ()
+
+
+
+
+
+
+
+(gdb) run $(python -c "print('A'*263)")
+Starting program: /media/sf_sharedFolderVMs/buffer/tutorial/tutorial $(python -c "print('A'*263)")
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[Inferior 1 (process 4639) exited normally]
+(gdb) run $(python -c "print('A'*264)")
+Starting program: /media/sf_sharedFolderVMs/buffer/tutorial/tutorial $(python -c "print('A'*264)")
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffff7a2e800 in __libc_start_main (main=0x400566 <main>, argc=2, argv=0x7fffffffdd18, init=<optimized out>, fini=<optimized out>, 
+    rtld_fini=<optimized out>, stack_end=0x7fffffffdd08) at ../csu/libc-start.c:285
+285	../csu/libc-start.c: No such file or directory.
+(gdb) 
+
+
+(gdb) break file1.c:6
+(gdb) break my func
+(gdb) continue
+(gdb) run
+(gdb) step
+(gdb) next
+(gdb) print my var 
+(gdb) print/x my var ==> 
+(gdb) watch my var ==> pause the program when a watched variable is modified
+(gdb) print e1->key
+(gdb) print (*e1).price
+
+
+
+Accessing parameters
+
+Parameters passed to the procedure by the caller are "burried just uner the ground" (that is, they have positive offsets relative to the base, because stack grows down). 
+You have in %ebp the address of the base of the local stack, where lies the previous value of the %ebp. Below it (that is, at 4(%ebp) lies the return address. So the first parameter will be at 8(%ebp), the second at 12(%ebp) and so o
+
+https://stackoverflow.com/questions/4751502/help-with-understanding-a-very-basic-main-disassembly-in-gdb
+
+
+FFS... the problem was the 'order', the variable allow was before in memory to username. 
+So we were not overriding the allow variable, but some other memory not allowed --> segmentation fault
