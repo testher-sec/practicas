@@ -1,0 +1,32 @@
+===============     Highest Address (e.g. 0xFFFF)
+|             |
+|    STACK    |
+|             |
+|-------------|  <- Stack Pointer   (e.g. 0xEEEE)
+|             |
+.     ...     .
+|             |
+|-------------|  <- Heap Pointer    (e.g. 0x2222)
+|             |
+|    HEAP     |
+|             |
+===============     Lowest Address  (e.g. 0x0000)
+To grow stack, you'd decrease the stack pointer:
+
+===============     Highest Address (e.g. 0xFFFF)
+|             |
+|    STACK    |
+|             |
+|.............|  <- Old Stack Pointer (e.g. 0xEEEE)
+|             |
+| Newly       |
+| allocated   |
+|-------------|  <- New Stack Pointer (e.g. 0xAAAA)
+.     ...     .
+|             |
+|-------------|  <- Heap Pointer      (e.g. 0x2222)
+|             |
+|    HEAP     |
+|             |
+===============     Lowest Address    (e.g. 0x0000)
+As you can see, to grow stack, we have decreased the stack pointer from 0xEEEE to 0xAAAA, whereas to grow heap, you have to increase the heap pointer.

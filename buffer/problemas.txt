@@ -29,6 +29,10 @@ disabled the stack smashing protector
        -fstack-protector-all
            Like -fstack-protector except that all functions are protected.
 
+           NOTE: In Ubuntu 14.10 and later versions, -fstack-protector-strong is enabled by default for C, C++, ObjC, ObjC++, if none of
+           -fno-stack-protector, -nostdlib, nor -ffreestanding are found.
+
+
 
 esther@esther-VirtualBox:/media/sf_sharedFolderVMs/buffer/_1gets$ gcc -fno-stack-protector exampleGets.c helper.c -o exampleBug
 exampleGets.c: In function ‘main’:
@@ -142,3 +146,9 @@ https://stackoverflow.com/questions/4751502/help-with-understanding-a-very-basic
 
 FFS... the problem was the 'order', the variable allow was before in memory to username. 
 So we were not overriding the allow variable, but some other memory not allowed --> segmentation fault
+
+
+https://sourceware.org/gdb/onlinedocs/gdb/Memory.html
+
+Ascii :)
+https://ee.hawaii.edu/~tep/EE160/Book/chap4/subsection2.1.1.1.html

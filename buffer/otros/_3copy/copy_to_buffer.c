@@ -28,3 +28,7 @@ int main( int argc, char* argv[]) {
     return 0;
 
 }
+
+
+// Here is where we could play to insert the shell code that I was being told in the video?
+// Execute a Hello CICE class?
