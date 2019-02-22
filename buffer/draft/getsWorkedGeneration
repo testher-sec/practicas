@@ -1,7 +1,0 @@
-esther@esther-VirtualBox:/media/sf_sharedFolderVMs/buffer/_1gets$ gcc -fno-stack-protector exampleGets.c helper.c  -o examplegdb
-exampleGets.c: In function ‘main’:
-exampleGets.c:31:2: warning: implicit declaration of function ‘gets’ [-Wimplicit-function-declaration]
-  gets(username);
-  ^
-/tmp/cc8O6MKt.o: In function `main':
-exampleGets.c:(.text+0x9a): warning: the `gets' function is dangerous and should not be used.
